@@ -368,7 +368,45 @@ public class Picture
 
    ////////////////////// methods ///////////////////////////////////////
 
-   
+   /*
+	 outputRed = (inputRed * .393) + (inputGreen *.769) + (inputBlue * .189)
+	 outputGreen = (inputRed * .349) + (inputGreen *.686) + (inputBlue * .168)
+	 outputBlue = (inputRed * .272) + (inputGreen *.534) + (inputBlue * .131)
+	 */
 
+	 //Method by Julian Matuszewski
+	 //Method applies a 'sepia' filter to the Picture, emulating an old style
+	public void sepiaFilter() {
+		Pixel[][] pixels = this.getPixels2D();
+		for (Pixel[] pixarray: pixels)
+			for (Pixel p: pixarray) {
+				//Assign input and output vars for rgb
+				//Grab input vars from the pixel object
+				int inputRed = p.getRed(),
+						inputGreen = p.getGreen(),
+						inputBlue = p.getBlue(),
+						outputRed,
+						outputGreen,
+						outputBlue;
+				
+				//Fades the image and makes it redder
+				outputRed = (int)((inputRed * .393)
+				 + (inputGreen *.769) + (inputBlue * .189));
+				outputGreen = (int)((inputRed * .349)
+				 + (inputGreen *.686) + (inputBlue * .168));
+				outputBlue = (int)((inputRed * .272)
+				 + (inputGreen *.534) + (inputBlue * .131));
+
+				//clamps output values to 255
+				if (outputRed > 255) outputRed = 255;
+				if (outputGreen > 255) outputGreen = 255;
+				if (outputBlue > 255) outputBlue = 255;
+
+				//formats it nicely and sets picture to new colors
+				Color c = new Color(outputRed, outputGreen, outputBlue);
+
+				p.setColor(c);
+			}
+	}
 
 } // this } is the end of class Picture, put all new methods before this
